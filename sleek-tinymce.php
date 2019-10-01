@@ -56,3 +56,34 @@ if (get_theme_support('sleek-tinymce-clean-paste')) {
 		return $in;
 	});
 }
+
+#######################################
+# Add some stuff to the Format dropdown
+add_filter('tiny_mce_before_init', function ($settings) {
+	# Keep the built-in WP styles and merge with ours
+	$settings['style_formats_merge'] = true;
+
+	# Also keep any potentially added style_formats
+	$oldFormats = [];
+
+	if (isset($settings['style_formats'])) {
+		$oldFormats = json_decode($settings['style_formats']);
+	}
+
+	$newFormats = array_merge($oldFormats, [
+		[
+			'title' => __('Button', 'sleek'),
+			'selector' => 'a',
+			'classes' => 'button'
+		],
+	/*	[
+			'title' => __('Button ghost', 'sleek'),
+			'selector' => 'a',
+			'classes' => 'button button--ghost'
+		] */
+	]);
+
+	$settings['style_formats'] = json_encode($newFormats);
+
+	return $settings;
+});
