@@ -77,11 +77,11 @@ add_action('after_setup_theme', function () {
 				'selector' => 'a',
 				'classes' => 'button'
 			],
-		/*	[
+			[
 				'title' => __('Button ghost', 'sleek'),
 				'selector' => 'a',
 				'classes' => 'button button--ghost'
-			] */
+			]
 		]);
 
 		$settings['style_formats'] = json_encode($newFormats);
