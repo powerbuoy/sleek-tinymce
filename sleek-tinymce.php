@@ -71,7 +71,8 @@ add_action('after_setup_theme', function () {
 			$oldFormats = json_decode($settings['style_formats']);
 		}
 
-		$newFormats = array_merge($oldFormats, [
+		# TODO: Add sleek/tinymce/formats filter
+		$newFormats = array_merge($oldFormats, apply_filters('sleek_tinymce_formats', [
 			[
 				'title' => __('Button', 'sleek'),
 				'selector' => 'a',
@@ -82,7 +83,7 @@ add_action('after_setup_theme', function () {
 				'selector' => 'a',
 				'classes' => 'button button--ghost'
 			]
-		]);
+		]));
 
 		$settings['style_formats'] = json_encode($newFormats);
 
