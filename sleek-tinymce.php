@@ -12,7 +12,7 @@ add_action('after_setup_theme', function () {
 
 	###########################
 	# Disable colors in WYSIWYG
-	if (get_theme_support('sleek-tinymce-no-colors')) {
+	if (get_theme_support('sleek/tinymce/disable_colors')) {
 		add_filter('mce_buttons_2', function ($buttons) {
 			if (($key = array_search('forecolor', $buttons)) !== false) {
 				unset($buttons[$key]);
@@ -25,11 +25,78 @@ add_action('after_setup_theme', function () {
 	#############
 	# Clean paste
 	# https://sundari-webdesign.com/wordpress-removing-classes-styles-and-tag-attributes-from-pasted-content/
-	if (get_theme_support('sleek-tinymce-clean-paste')) {
-		add_filter('tiny_mce_before_init', function ($in) {
+	if (get_theme_support('sleek/tinymce/clean_paste')) {
+		$disallowedElements = apply_filters('sleek/tinymce/clean_paste_disallowed_elements', [
+			'form',
+			'input',
+			'textarea',
+			'label',
+			'select',
+			'button',
+			'applet',
+			'area',
+			'article',
+			'aside',
+			'audio',
+			'base',
+			'basefont',
+			'bdi',
+			'bdo',
+			'body',
+			'button',
+			'canvas',
+			'command',
+			'datalist',
+			'details',
+			'embed',
+			'figcaption',
+			'figure',
+			'font',
+			'footer',
+			'frame',
+			'frameset',
+			'head',
+			'header',
+			'hgroup',
+			'hr',
+			'html',
+			'iframe',
+		#	'img',
+			'keygen',
+			'link',
+			'map',
+			'mark',
+			'menu',
+			'meta',
+			'meter',
+			'nav',
+			'noframes',
+			'noscript',
+			'object',
+			'optgroup',
+			'output',
+			'param',
+			'progress',
+			'rp',
+			'rt',
+			'ruby',
+			'script',
+			'section',
+			'source',
+			'span',
+			'style',
+			'summary',
+			'time',
+			'title',
+			'track',
+			'video',
+			'wbr'
+		]);
+
+		add_filter('tiny_mce_before_init', function ($in) use ($disallowedElements) {
 			$in['paste_preprocess'] = "function (pl, o) {
 				// remove the following tags completely:
-				o.content = o.content.replace(/<\/*(form|applet|area|article|aside|audio|base|basefont|bdi|bdo|body|button|canvas|command|datalist|details|embed|figcaption|figure|font|footer|frame|frameset|head|header|hgroup|hr|html|iframe|img|keygen|link|map|mark|menu|meta|meter|nav|noframes|noscript|object|optgroup|output|param|progress|rp|rt|ruby|script|section|source|span|style|summary|time|title|track|video|wbr)[^>]*>/gi,'');
+				o.content = o.content.replace(/<\/*(" . implode('|', $disallowedElements) . ")[^>]*>/gi,'');
 
 				// remove all attributes from these tags:
 				o.content = o.content.replace(/<(div|table|tbody|tr|td|th|p|b|font|strong|i|em|h1|h2|h3|h4|h5|h6|hr|ul|li|ol|code|blockquote|address|dir|dt|dd|dl|big|cite|del|dfn|ins|kbd|q|samp|small|s|strike|sub|sup|tt|u|var|caption) [^>]*>/gi,'<$1>');
@@ -71,8 +138,8 @@ add_action('after_setup_theme', function () {
 			$oldFormats = json_decode($settings['style_formats']);
 		}
 
-		# TODO: Add sleek/tinymce/formats filter
-		$newFormats = array_merge($oldFormats, apply_filters('sleek_tinymce_formats', [
+		# Add our formats
+		$newFormats = array_merge($oldFormats, apply_filters('sleek/tinymce/formats', [
 			[
 				'title' => __('Button', 'sleek'),
 				'selector' => 'a',
