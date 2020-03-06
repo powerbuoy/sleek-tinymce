@@ -1,4 +1,4 @@
-# SleekTinyMCE
+# Sleek TinyMCE
 
 Improves the TinyMCE editor.
 
