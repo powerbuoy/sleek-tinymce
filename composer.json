@@ -1,5 +1,6 @@
 {
     "name": "powerbuoy/sleek-tinymce",
+    "description": "Improves the TinyMCE editor.",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
