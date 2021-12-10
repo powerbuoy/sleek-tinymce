@@ -141,12 +141,12 @@ add_action('after_setup_theme', function () {
 		# Add our formats
 		$newFormats = array_merge($oldFormats, apply_filters('sleek/tinymce/formats', [
 			[
-				'title' => __('Button', 'sleek'),
+				'title' => __('Button', 'sleek_admin'),
 				'selector' => 'a',
 				'classes' => 'button'
 			],
 			[
-				'title' => __('Button ghost', 'sleek'),
+				'title' => __('Button ghost', 'sleek_admin'),
 				'selector' => 'a',
 				'classes' => 'button button--ghost'
 			]
